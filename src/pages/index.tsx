@@ -1,5 +1,5 @@
 import CardProduct from "@/components/CardProduct";
-import { GetProducts } from "@/services/querys/queryProducts";
+import { GetProducts } from "@/services/queries/queryProducts";
 import { GetServerSideProps } from "next";
 
 const Home: React.FC<any> = ({ products }) => {
