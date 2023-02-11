@@ -1,0 +1,14 @@
+overwrite: true
+
+schema: 'https://snkrs.saleor.cloud/graphql/'
+
+documents: './src/graphql/**/*.graphql'
+
+generates:
+  src/graphql/generated/grapgql.tsx:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-urql'
+    config:
+      withHooks: true

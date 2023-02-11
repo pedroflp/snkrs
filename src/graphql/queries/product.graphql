@@ -1,0 +1,27 @@
+query Product($id: ID) {
+  product (id: $id) {
+    id
+    name
+    description
+    category {
+      name 
+    }
+    media {
+      id
+      url
+      sortOrder
+    }
+    variants {
+      id
+      name
+    }
+    defaultVariant {
+      pricing {
+        price {
+          currency
+          gross { amount }
+        }
+      }
+    }
+  }
+}

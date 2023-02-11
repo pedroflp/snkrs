@@ -1,35 +1,40 @@
 import CardProduct from "@/components/CardProduct";
-import { GetProducts } from "@/services/queries/queryProducts";
+import { ProductsDocument, useProductsQuery } from "@/graphql/generated/grapgql";
+import { BaseLayout } from "@/layout/BaseLayout";
+import { client, ssrCache } from "@/lib/urql";
+import { HomeProps } from "@/pages/types";
 import { GetServerSideProps } from "next";
+import { ProductList } from "./styles";
 
-const Home: React.FC<any> = ({ products }) => {
+const Index: React.FC<HomeProps> = () => {
+  const [{ data }] = useProductsQuery({
+    variables: { limit: 100 }
+  });
+
   return (
-    <div>
-      {products?.map((p: any) => {
-        const product = p.node;
-        return (
-          <CardProduct
-            key={product.id}
-            image={product.media[0].url}
-            label={product.category.name}
-            name={product.name}
-            price={product.defaultVariant.pricing.price}
-          />
-        )
-      })}
-    </div>
+    <BaseLayout>
+      <ProductList>
+        {data?.products?.edges.map((product) => {
+          return (
+            <CardProduct
+              key={product.node.id}
+              product={product.node}
+            />
+          )
+        })}
+      </ProductList>
+    </BaseLayout>
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await GetProducts();
-  const products = data.products.edges;
+export const getServerSide: GetServerSideProps = async () => {
+  await client.query(ProductsDocument, { limit: 100 }).toPromise();
   
   return ({
     props: {
-      products,
+      urqlState: ssrCache.extractData()
     },
   })
 }
 
-export default Home;
+export default Index;

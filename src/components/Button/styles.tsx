@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { colors } from '../../styles/colors';
+import { colors } from '../../constants/colors';
 import { ButtonThemesEnum } from './types';
 
 export const Container = styled.button`

@@ -1,0 +1,27 @@
+query Products($limit: Int) {
+  products(first: $limit) {
+    edges {
+      node {
+        id
+        name
+        slug
+       	media {
+          url
+        }
+        category {
+          name
+        }
+        defaultVariant {
+          pricing {
+            price {
+              currency
+              gross {
+                amount
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

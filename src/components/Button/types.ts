@@ -8,5 +8,5 @@ export enum ButtonThemesEnum {
 export type ButtonProps = {
   theme: keyof typeof ButtonThemesEnum,
   children: React.ReactNode
-  style: any,
+  style?: any,
 }

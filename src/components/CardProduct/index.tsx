@@ -1,49 +1,39 @@
 import React from 'react';
 import { formatCurrency } from '../../utils/formatCurrency';
-import { Button } from '../Button';
-import { Bottom, Buttons, Container, Content, Header, Preview, ProductImage, ProductInfo, ProductLabel, ProductName, ProductPrice } from './styles';
+import { Container, Content, Preview, ProductImage, ProductInfo, ProductLabel, ProductName, ProductPrice } from './styles';
 import { CardProductProps } from './types';
 
-const CardProduct: React.FC<CardProductProps> = ({
-  image,
-  label,
-  name,
-  price,
-  isFavorited,
-  isInBag,
-}) => {
+const CardProduct: React.FC<CardProductProps> = ({ product }) => {
+  const {
+    id,
+    media,
+    category: { name: categoryName },
+    name,
+    defaultVariant: { pricing: { price } },
+  } = product;
+  
   return (
-    <Container >
+    <Container href={`/product/${id}`}>
       <Preview>
-        <ProductImage src={image} alt="Product preview" />
+        <ProductImage
+          src={media[0].url}
+          alt="Product Thumbnail"
+        />
       </Preview>
 
       <Content>
-        <Header>
-          <ProductInfo>
-            <ProductLabel title={label}>
-              {label?.length >= 15 ? label.substring(0, 15) + '...' : label}
-            </ProductLabel>
-            <ProductName title={name}>
-              {name?.length >= 25 ? name.substring(0, 25) + '...' : name}
-            </ProductName>
-          </ProductInfo>
-        </Header>
+        <ProductInfo>
+          <ProductLabel title={categoryName}>
+            {categoryName}
+          </ProductLabel>
+          <ProductName title={name}>
+            {name}
+          </ProductName>
+        </ProductInfo>
 
-        <Bottom>
-          <ProductPrice>
-            {formatCurrency(price.gross.amount, price.currency)}
-          </ProductPrice>
-
-          <Buttons>
-            <Button
-              theme="primary"
-              style={{ width: '100%', height: '100%' }}
-            >
-              Comprar
-            </Button>
-          </Buttons>
-        </Bottom>
+        <ProductPrice>
+          {formatCurrency(price.gross.amount, price.currency)}
+        </ProductPrice>
       </Content>
     </Container>
   )
