@@ -3,13 +3,14 @@ import { colors } from '../../constants/colors';
 import { ButtonThemesEnum } from './types';
 
 export const Container = styled.button`
+  display: flex;
   padding: 8px 16px;
   border-radius: 8px;
   border: none;
   justify-content: center;
   align-items: center;
-  height: min-content;
-  width: min-content;
+  min-height: min-content;
+  min-width: min-content;
 
   ${({ theme }: { theme: ButtonThemesEnum }) =>
     theme === ButtonThemesEnum.primary && css`
@@ -21,6 +22,10 @@ export const Container = styled.button`
       background-color: transparent;
       border: 1px solid ${colors.grey[2]};
       color: ${colors.grey[3]}
+    ` || 
+    theme === ButtonThemesEnum.transparent && css`
+      background-color: transparent;
+      border: none;
     `
   }
 `;

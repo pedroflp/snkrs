@@ -1,10 +1,10 @@
 import { Button } from '@/components/Button'
 import { ButtonThemesEnum } from '@/components/Button/types'
 import { routeNames } from '@/constants/routeNames'
+import { BsBag } from '@react-icons/all-files/bs/BsBag'
+import { BsBagFill } from '@react-icons/all-files/bs/BsBagFill'
 import { HiHeart } from '@react-icons/all-files/hi/HiHeart'
 import { HiOutlineHeart } from '@react-icons/all-files/hi/HiOutlineHeart'
-import { MdAddShoppingCart } from '@react-icons/all-files/md/MdAddShoppingCart'
-import { MdShoppingCart } from '@react-icons/all-files/md/MdShoppingCart'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { Profile } from './components/Profile'
@@ -27,7 +27,7 @@ export const Header = () => {
     const isInBagPage = pathname === routeNames.bag;
     return (
       <IconButton>
-        {isInBagPage ? <MdShoppingCart size={24} /> : <MdAddShoppingCart size={24} />}
+        {isInBagPage ? <BsBagFill size={22} /> : <BsBag size={22} />}
       </IconButton>
     )
   }, [pathname]);

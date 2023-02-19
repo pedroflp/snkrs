@@ -2,13 +2,12 @@ import { colors } from "@/constants/colors";
 import styled, { css } from "styled-components";
 
 export const Content = styled.div`
-  display: grid;
-  grid-template-columns: 60% auto;
+  background-color: ${colors.white};
+  display: flex;
   margin: auto;
-  padding: 0 4rem;
-  width: 80%;
+  justify-content: flex-end;
   height: 100%;
-  gap: 5rem;
+  gap: 4rem;
   position: relative;
 `
 
@@ -17,9 +16,9 @@ export const MediaList = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 2rem;
-  max-width: 100%;
   overflow-y: scroll;
-  padding: 4rem 1rem;
+  padding: 4rem;
+  background-color: ${colors.grey[0]};
 
   &::-webkit-scrollbar {
     display: none;
@@ -35,12 +34,13 @@ export const Media = styled.div<{
   border-radius: 30px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+  background-color: ${colors.white};
 
   ${({ mainPreview }) => mainPreview ? css`
     width: 100%;
     height: 600px;
   ` : css`
-    width: 48%;
+    width: calc(${100/2}% - 1rem);
     height: 300px;
   `}
 `
@@ -55,16 +55,16 @@ export const Image = styled.img`
 export const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 2rem;
-  height: 600px;
-  padding: 4rem 0;
+  width: 80%;
+  padding: 4rem 8rem 4rem 0;
 `
 
 export const Header = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
 `
 
 export const Title = styled.div`
@@ -79,55 +79,17 @@ export const Category = styled.h3`
 `
 
 export const Name = styled.h1`
-  font-size: 50px;
+  font-size: 44px;
   font-weight: 700;
-`
-
-export const DescriptionContainer = styled.p`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  padding-bottom: 30px;
-  overflow: hidden;
-`
-
-export const Description = styled.span<{
-  showFull: boolean
-}>`
-  font-size: 16px;
-  color: ${colors.grey[3]};
-  font-weight: 400;
-  transition: all 300ms ease;
-  overflow: hidden;
-  max-height: ${({ showFull }) => showFull ? 'auto' : '60px'};
-`
-
-export const SeeMoreDescription = styled.button<{
-  showFull: boolean;
-}>`
-  border: none;
-  background: none;
-  width: 100%;
-  color: ${colors.grey[3]};
-  font-weight: 700;
-  padding-top: 8px;
-  font-size: 16px;
-  position: absolute;
-  bottom: 0px;
-  transition: all 300ms ease;
-  
-  ${({ showFull }) => !showFull && css`
-    box-shadow: 0px -10px 50px rgba(0, 0, 0, 0.15);
-  `}
 `
 
 export const SizeSelection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 `
 
-export const SizeTitle = styled.h3`
+export const SectionTitle = styled.h3`
   font-size: 16px;
   font-weight: 400;
   color: ${colors.grey[2]};
@@ -135,7 +97,7 @@ export const SizeTitle = styled.h3`
 
 export const SizeList = styled.div`
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 `
 
 export const Size = styled.button<{
@@ -155,7 +117,7 @@ export const Size = styled.button<{
       color: ${colors.black};
     `
     : css`
-      border-color: ${colors.grey[2]};
+      border-color: ${colors.grey[1]};
       color: ${colors.grey[3]};
     `
   };
@@ -164,16 +126,94 @@ export const Size = styled.button<{
 export const Footer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+  width: 100%;
 `
 
 export const Price = styled.h1`
-  font-size: 40px;
+  font-size: 48px;
   font-weight: 900;
 `
 
 export const Buttons = styled.div`
-  display: grid;
+  display: flex;
+  align-items: center;
   gap: 1rem;
-  grid-template-columns: 50% auto;
+  max-width: 70%;
+`
+
+export const Shipping = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-top: 1px solid ${colors.grey[1]};
+  padding-top: 2rem;
+  margin-top: 1rem;
+`
+
+export const ShippingList = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+`
+
+export const ShippingSelect = styled.button<{
+  selected: boolean;
+}>`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  width: 100%;
+  gap: 1rem;
+  border: 2px solid ${colors.grey[1]};
+  background-color: transparent;
+  transition: 300ms ease-in-out;
+
+  ${({ selected }) => selected && css`
+    border-color: ${colors.black};
+  `}
+`
+
+export const SelectRadio = styled.div<{
+  selected: boolean;
+}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid ${colors.grey[2]};
+  border-radius: 50%;
+  width: 1rem;
+  height: 1rem;
+  overflow: hidden;
+  transition: 200ms ease-in;
+
+  ${({ selected }) => selected && css`
+    border-color: ${colors.black};
+
+    ::before {
+      content: '';
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: ${colors.black};
+    }
+  `}
+`
+
+export const ShippingInformations = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+`
+
+export const ShippingMethodName = styled.h1`
+  font-size: 12px;
+`
+export const ShippingMethodPrice = styled.h2`
+  font-size: 16px;
+`
+export const ShippingDeliveryDate = styled.h3`
+  font-size: 12px;
 `

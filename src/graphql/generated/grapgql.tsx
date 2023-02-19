@@ -25261,7 +25261,7 @@ export type ProductQueryVariables = Exact<{
 }>;
 
 
-export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, description?: any | null, category?: { __typename?: 'Category', name: string } | null, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, sortOrder?: number | null }> | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null, defaultVariant?: { __typename?: 'ProductVariant', pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number } } | null } | null } | null } | null };
+export type ProductQuery = { __typename?: 'Query', product?: { __typename?: 'Product', id: string, name: string, weight?: { __typename?: 'Weight', value: number } | null, category?: { __typename?: 'Category', name: string } | null, media?: Array<{ __typename?: 'ProductMedia', id: string, url: string, sortOrder?: number | null }> | null, variants?: Array<{ __typename?: 'ProductVariant', id: string, name: string }> | null, defaultVariant?: { __typename?: 'ProductVariant', pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number } } | null } | null } | null } | null };
 
 export type ProductsQueryVariables = Exact<{
   limit?: InputMaybe<Scalars['Int']>;
@@ -25276,7 +25276,9 @@ export const ProductDocument = gql`
   product(id: $id) {
     id
     name
-    description
+    weight {
+      value
+    }
     category {
       name
     }

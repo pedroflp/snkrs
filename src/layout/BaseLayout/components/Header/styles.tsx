@@ -10,8 +10,8 @@ export const Container = styled.div`
   align-items: center;
   width: 100%;
   height: ${headerHeight}px;
+  background-color: ${colors.white};
   border-bottom: 1px solid ${colors.grey[1]};
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.05);
 `;
 
 export const Logo = styled.h1`

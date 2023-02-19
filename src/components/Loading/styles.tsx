@@ -19,9 +19,9 @@ const loading = keyframes`
   }
 `
 
-export const Loader = styled(AiOutlineLoading).attrs({
-  size: 50
-})`
+export const Loader = styled(AiOutlineLoading).attrs(({ size }) => ({
+  size: size || 50
+}))`
   animation: ${loading} 1s infinite linear;
 `
 
