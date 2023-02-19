@@ -11,8 +11,8 @@ import { format } from "date-fns";
 import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { useMemo, useState } from "react";
-import { IShippingData } from "../api/shipping";
-import { Buttons, Category, Content, Footer, Header, Image, Media, MediaList, Name, Price, ProductInfo, SectionTitle, SelectRadio, Shipping, ShippingDeliveryDate, ShippingInformations, ShippingList, ShippingMethodName, ShippingMethodPrice, ShippingSelect, Size, SizeList, SizeSelection, Title } from "./styles";
+import { IShippingAddress, IShippingData, ShippingResponse } from "../api/shipping";
+import { Buttons, Category, Content, Footer, Header, Image, Media, MediaList, Name, Price, ProductInfo, SectionTitle, SelectRadio, Shipping, ShippingDeliveryDate, ShippingInformations, ShippingList, ShippingMethodName, ShippingMethodPrice, ShippingSelect, ShippingSelectOptions, Size, SizeList, SizeSelection, Title } from "./styles";
 
 const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
   const [{ data, fetching }] = useProductQuery({
@@ -28,8 +28,9 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
   const [isLoadingShippingRequest, setIsLoadingShippingRequest] = useState(false);
   const [calculateShippingError, setCalculateShippingError] = useState<string | null>();
 
-  const [selectedShippingService, setSelectedShippingService] = useState<IShippingData>();
+  const [shippingAddress, setShippingAddress] = useState<IShippingAddress>();
   const [shippingServices, setShippingServices] = useState<IShippingData[]>([]);
+  const [selectedShippingService, setSelectedShippingService] = useState<IShippingData>();
 
   const handleCalculateShipping = async (
     cep: string,
@@ -38,6 +39,9 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
   ) => {
     setIsLoadingShippingRequest(true);
     setCalculateShippingError(null);
+    setShippingAddress(undefined);
+    setShippingServices([]);
+    setSelectedShippingService(undefined);
 
     try {
       const response = await fetch('/api/shipping', {
@@ -48,17 +52,18 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
           price
         })
       })
-      const { data, error } = await response.json();
+      const { data, error }: ShippingResponse = await response.json();
       
       if (response.status === 400)
         return setCalculateShippingError(error);
       
       if (response.status === 200) {
-        setShippingServices(data)
+        setShippingAddress(data!?.address);
+        setShippingServices(data!?.shipping);
       }
 
     } finally {
-      setIsLoadingShippingRequest(false)
+      setIsLoadingShippingRequest(false);
     }
   }
 
@@ -152,22 +157,29 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
                     />
                     
                     <ShippingList>
-                      {shippingServices.map((service) => {
-                        const isSelected = service.code === selectedShippingService?.code;
-                        return (
-                          <ShippingSelect
-                            selected={isSelected}
-                            onClick={() => setSelectedShippingService(service)}
-                          >
-                            <SelectRadio selected={isSelected} />
-                            <ShippingInformations>
-                              <ShippingMethodName>{service.name}</ShippingMethodName>
-                              <ShippingDeliveryDate>Entrega em: {format(new Date(service.deliveryDate), 'dd/MM')}</ShippingDeliveryDate>
-                              <ShippingMethodPrice>{formatCurrency(service.price, 'BRL')}</ShippingMethodPrice>
-                            </ShippingInformations>
-                          </ShippingSelect>
-                        )
-                      })}
+                      {shippingAddress && <SectionTitle style={{ fontSize: 10, color: colors.black }}>
+                          Envios para {shippingAddress?.city} - {shippingAddress.state}
+                        </SectionTitle>
+                      }
+                      <ShippingSelectOptions>
+                        {shippingServices.map((service) => {
+                          console.log(service.code, selectedShippingService?.code)
+                          const isSelected = service.code === selectedShippingService?.code;
+                          return (
+                            <ShippingSelect
+                              selected={isSelected}
+                              onClick={() => setSelectedShippingService(service)}
+                            >
+                              <SelectRadio selected={isSelected} />
+                              <ShippingInformations>
+                                <ShippingMethodName>{service.name}</ShippingMethodName>
+                                <ShippingDeliveryDate>Entrega em: {format(new Date(service.deliveryDate), 'dd/MM')}</ShippingDeliveryDate>
+                                <ShippingMethodPrice>{formatCurrency(service.price, 'BRL')}</ShippingMethodPrice>
+                              </ShippingInformations>
+                            </ShippingSelect>
+                          )
+                        })}
+                      </ShippingSelectOptions>
                     </ShippingList>
                   </Shipping>
                 </Footer>

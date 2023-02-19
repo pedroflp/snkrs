@@ -153,9 +153,16 @@ export const Shipping = styled.div`
 
 export const ShippingList = styled.div`
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 4px;
   width: 100%;
   margin-top: 1rem;
+`
+
+export const ShippingSelectOptions = styled.div`
+  display: flex;
+  gap: 1rem;
+  width: 100%;
 `
 
 export const ShippingSelect = styled.button<{
@@ -216,4 +223,6 @@ export const ShippingMethodPrice = styled.h2`
 `
 export const ShippingDeliveryDate = styled.h3`
   font-size: 12px;
+  font-weight: 400;
+  color: ${colors.grey[3]}
 `
