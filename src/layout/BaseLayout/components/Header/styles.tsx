@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styled from 'styled-components';
 import { colors } from '../../../../constants/colors';
 
@@ -14,8 +15,9 @@ export const Container = styled.div`
   border-bottom: 1px solid ${colors.grey[1]};
 `;
 
-export const Logo = styled.h1`
+export const Logo = styled(Link)`
   font-size: 30px;
+  text-decoration: none;
   font-weight: 900;
   color: ${colors.black};
 `;

@@ -1,14 +1,13 @@
-import { BiUser } from '@react-icons/all-files/bi/BiUser'
-import { colors } from '../../../../../../constants/colors'
-import { Container, Picture } from './styles'
+import { IUser } from '@/contexts/UserContext'
+import { Container, Letter, Picture } from './styles'
 
-export const Profile = ({ pictureUrl }: { pictureUrl: string }) => {
+export const Profile = ({ user }: { user: IUser["user"] }) => {
   return (
     <Container>
-      {!!pictureUrl ? (
-        <Picture src={pictureUrl} />
+      {!!user!?.photo ? (
+        <Picture src={user!?.photo} />
       ) : (
-        <BiUser size={24} color={colors.black} />
+        <Letter>{user?.name.substring(0, 1)}</Letter>
       )}
     </Container>
   )

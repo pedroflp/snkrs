@@ -7,7 +7,6 @@ export const Content = styled.div`
   margin: auto;
   justify-content: flex-end;
   height: 100%;
-  gap: 4rem;
   position: relative;
 `
 
@@ -57,7 +56,12 @@ export const ProductInfo = styled.div`
   flex-direction: column;
   gap: 2rem;
   width: 80%;
-  padding: 4rem 8rem 4rem 0;
+  padding: 4rem;
+  transition: 500ms ease-in;
+
+  @media screen and (max-width: 1500px) {
+    width: 90%;
+  }
 `
 
 export const Header = styled.div`
@@ -159,59 +163,30 @@ export const ShippingList = styled.div`
   margin-top: 1rem;
 `
 
-export const ShippingSelectOptions = styled.div`
+export const ShippingOptions = styled.div`
   display: flex;
   gap: 1rem;
   width: 100%;
 `
 
-export const ShippingSelect = styled.button<{
-  selected: boolean;
-}>`
+export const ShippingOption = styled.div`
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 1rem;
   border-radius: 8px;
   width: 100%;
   gap: 1rem;
-  border: 2px solid ${colors.grey[1]};
-  background-color: transparent;
+  border: 1px solid ${colors.grey[1]};
+  background-color: ${colors.grey[0]};
   transition: 300ms ease-in-out;
-
-  ${({ selected }) => selected && css`
-    border-color: ${colors.black};
-  `}
-`
-
-export const SelectRadio = styled.div<{
-  selected: boolean;
-}>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid ${colors.grey[2]};
-  border-radius: 50%;
-  width: 1rem;
-  height: 1rem;
-  overflow: hidden;
-  transition: 200ms ease-in;
-
-  ${({ selected }) => selected && css`
-    border-color: ${colors.black};
-
-    ::before {
-      content: '';
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      background: ${colors.black};
-    }
-  `}
 `
 
 export const ShippingInformations = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
   text-align: left;
 `
 
@@ -219,10 +194,12 @@ export const ShippingMethodName = styled.h1`
   font-size: 12px;
 `
 export const ShippingMethodPrice = styled.h2`
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 700;
 `
 export const ShippingDeliveryDate = styled.h3`
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 11px;
+  font-weight: 300;
+  margin-top: 4px;
   color: ${colors.grey[3]}
 `

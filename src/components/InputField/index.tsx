@@ -1,5 +1,9 @@
+import { AiOutlineEye } from '@react-icons/all-files/ai/AiOutlineEye'
+import { AiOutlineEyeInvisible } from '@react-icons/all-files/ai/AiOutlineEyeInvisible'
+import { useMemo, useState } from 'react'
+import { Button } from '../Button'
 import { Loader } from "../Loading/styles"
-import { Container, Error, Field, Input, Loading } from "./styles"
+import { Container, Error, Field, Input, RightChildren } from "./styles"
 import { InputFieldProps } from "./types"
 
 export const InputField: React.FC<InputFieldProps> = ({
@@ -8,11 +12,23 @@ export const InputField: React.FC<InputFieldProps> = ({
   value,
   isLoading,
   error,
+  inputType,
+  style,
   ...rest  
 }) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
+  const type = useMemo(() => {
+    if (inputType === "password") return isPasswordVisible ? inputType : "text"
+
+    return inputType
+  }, [inputType, isPasswordVisible])
+
   return (
     <Container>
-      <Field>
+      <Field
+        style={style}
+      >
         <Input
           {...rest}
           value={value}
@@ -21,8 +37,16 @@ export const InputField: React.FC<InputFieldProps> = ({
           onChange={e => onChange(e.target.value)}
           isLoading={isLoading}
           error={error}
+          type={type}
         />
-        {isLoading && <Loading><Loader size={20} /></Loading>}
+        <RightChildren>
+          {inputType === "password" && (
+            <Button theme='transparent' style={{ padding: 0 }} onClick={() => setIsPasswordVisible(prev => !prev)}>
+             {isPasswordVisible ? <AiOutlineEye size={20} /> : <AiOutlineEyeInvisible size={20} />}
+            </Button>
+          )}
+          {isLoading && <Loader size={20} />}
+        </RightChildren>
       </Field>
       {!!error && <Error>{error}</Error>}
     </Container>

@@ -11,6 +11,7 @@ export const Container = styled.button`
   align-items: center;
   min-height: min-content;
   min-width: min-content;
+  transition: 300ms ease;
 
   ${({ theme }: { theme: ButtonThemesEnum }) =>
     theme === ButtonThemesEnum.primary && css`
@@ -27,5 +28,10 @@ export const Container = styled.button`
       background-color: transparent;
       border: none;
     `
+  };
+
+  &:disabled {
+    background-color: ${colors.grey[2]};
+    color: ${colors.grey[3]}
   }
 `;

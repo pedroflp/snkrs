@@ -20,16 +20,18 @@ const Index: React.FC<HomeProps> = () => {
         color={colors.grey[2]}
         style={{ margin: 'auto', width: '100%' }}
       />}
-      <ProductList>
-        {data?.products?.edges.map((product) => {
-          return (
-            <CardProduct
-              key={product.node.id}
-              product={product.node}
-            />
-          )
-        })}
-      </ProductList>
+      {data?.products?.edges && (
+        <ProductList>
+          {data?.products?.edges.map((product) => {
+            return (
+              <CardProduct
+                key={product.node.id}
+                product={product.node}
+              />
+            )
+          })}
+        </ProductList>
+      )}
     </BaseLayout>
   )
 }

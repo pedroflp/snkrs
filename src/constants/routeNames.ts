@@ -1,4 +1,9 @@
 export const routeNames = {
+  home: '/',
   favorited: 'favorited',
-  bag: 'bag'
+  bag: 'bag',
+  account: {
+    creation: '/create-account',
+    confirmation: '/create-account/confirmation'
+  }
 }

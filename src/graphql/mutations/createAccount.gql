@@ -1,0 +1,20 @@
+mutation createAccount($email: String!, $firstName: String!, $password: String!) {
+  accountRegister(
+    input: {
+      email: $email
+      firstName: $firstName
+      password: $password
+      redirectUrl: "http://localhost:3001/create-account/confirmation/"
+      channel: "default-channel"
+    }
+  ) {
+    errors {
+      field
+      code
+    }
+    user {
+      email
+      isActive
+    }
+  }
+}

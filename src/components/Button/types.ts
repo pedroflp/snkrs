@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 export enum ButtonThemesEnum {
   primary = 'primary',
@@ -9,7 +9,8 @@ export enum ButtonThemesEnum {
 export type ButtonProps = {
   theme: keyof typeof ButtonThemesEnum,
   children: React.ReactNode
-  style?: any,
-  width?: number | string,
-  height?: number | string,
+  style?: React.CSSProperties,
+  onClick: (attrs?: any) => void,
+  isLoading?: boolean,
+  disabled?: boolean,
 }

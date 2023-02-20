@@ -5,6 +5,7 @@ import { colors } from "@/constants/colors";
 import { ProductDocument, useProductQuery } from "@/graphql/generated/grapgql";
 import { BaseLayout } from "@/layout/BaseLayout";
 import { client, ssrCache } from "@/lib/urql";
+import { Column } from "@/styles/globalStyles";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { BsBag } from '@react-icons/all-files/bs/BsBag';
 import { format } from "date-fns";
@@ -12,7 +13,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import Head from "next/head";
 import { useMemo, useState } from "react";
 import { IShippingAddress, IShippingData, ShippingResponse } from "../api/shipping";
-import { Buttons, Category, Content, Footer, Header, Image, Media, MediaList, Name, Price, ProductInfo, SectionTitle, SelectRadio, Shipping, ShippingDeliveryDate, ShippingInformations, ShippingList, ShippingMethodName, ShippingMethodPrice, ShippingSelect, ShippingSelectOptions, Size, SizeList, SizeSelection, Title } from "./styles";
+import { Buttons, Category, Content, Footer, Header, Image, Media, MediaList, Name, Price, ProductInfo, SectionTitle, Shipping, ShippingDeliveryDate, ShippingInformations, ShippingList, ShippingMethodName, ShippingMethodPrice, ShippingOption, ShippingOptions, Size, SizeList, SizeSelection, Title } from "./styles";
 
 const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
   const [{ data, fetching }] = useProductQuery({
@@ -130,7 +131,7 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
                       theme="primary"
                       style={{ width: '60%', height: 50 }}
                     >
-                        Comprar
+                      Comprar
                     </Button>
                   </Buttons>
 
@@ -161,25 +162,19 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
                           Envios para {shippingAddress?.city} - {shippingAddress.state}
                         </SectionTitle>
                       }
-                      <ShippingSelectOptions>
-                        {shippingServices.map((service) => {
-                          console.log(service.code, selectedShippingService?.code)
-                          const isSelected = service.code === selectedShippingService?.code;
-                          return (
-                            <ShippingSelect
-                              selected={isSelected}
-                              onClick={() => setSelectedShippingService(service)}
-                            >
-                              <SelectRadio selected={isSelected} />
-                              <ShippingInformations>
+                      <ShippingOptions>
+                        {shippingServices.map((service) => (
+                          <ShippingOption>
+                            <ShippingInformations>
+                              <Column>
                                 <ShippingMethodName>{service.name}</ShippingMethodName>
                                 <ShippingDeliveryDate>Entrega em: {format(new Date(service.deliveryDate), 'dd/MM')}</ShippingDeliveryDate>
-                                <ShippingMethodPrice>{formatCurrency(service.price, 'BRL')}</ShippingMethodPrice>
-                              </ShippingInformations>
-                            </ShippingSelect>
-                          )
-                        })}
-                      </ShippingSelectOptions>
+                              </Column>
+                              <ShippingMethodPrice>{formatCurrency(service.price, 'BRL')}</ShippingMethodPrice>
+                            </ShippingInformations>
+                          </ShippingOption>
+                        ))}
+                      </ShippingOptions>
                     </ShippingList>
                   </Shipping>
                 </Footer>

@@ -25256,6 +25256,23 @@ export type _Service = {
   sdl?: Maybe<Scalars['String']>;
 };
 
+export type AuthLoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type AuthLoginMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, refreshToken?: string | null, errors: Array<{ __typename?: 'AccountError', field?: string | null, message?: string | null }> } | null };
+
+export type CreateAccountMutationVariables = Exact<{
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type CreateAccountMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', errors: Array<{ __typename?: 'AccountError', field?: string | null, code: AccountErrorCode }>, user?: { __typename?: 'User', email: string, isActive: boolean } | null } | null };
+
 export type ProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
 }>;
@@ -25271,6 +25288,42 @@ export type ProductsQueryVariables = Exact<{
 export type ProductsQuery = { __typename?: 'Query', products?: { __typename?: 'ProductCountableConnection', edges: Array<{ __typename?: 'ProductCountableEdge', node: { __typename?: 'Product', id: string, name: string, slug: string, media?: Array<{ __typename?: 'ProductMedia', url: string }> | null, category?: { __typename?: 'Category', name: string } | null, defaultVariant?: { __typename?: 'ProductVariant', pricing?: { __typename?: 'VariantPricingInfo', price?: { __typename?: 'TaxedMoney', currency: string, gross: { __typename?: 'Money', amount: number } } | null } | null } | null } }> } | null };
 
 
+export const AuthLoginDocument = gql`
+    mutation authLogin($email: String!, $password: String!) {
+  tokenCreate(email: $email, password: $password) {
+    token
+    refreshToken
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
+
+export function useAuthLoginMutation() {
+  return Urql.useMutation<AuthLoginMutation, AuthLoginMutationVariables>(AuthLoginDocument);
+};
+export const CreateAccountDocument = gql`
+    mutation createAccount($email: String!, $firstName: String!, $password: String!) {
+  accountRegister(
+    input: {email: $email, firstName: $firstName, password: $password, redirectUrl: "http://localhost:3001/create-account/confirmation/", channel: "default-channel"}
+  ) {
+    errors {
+      field
+      code
+    }
+    user {
+      email
+      isActive
+    }
+  }
+}
+    `;
+
+export function useCreateAccountMutation() {
+  return Urql.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument);
+};
 export const ProductDocument = gql`
     query Product($id: ID) {
   product(id: $id) {

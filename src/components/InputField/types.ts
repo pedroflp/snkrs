@@ -1,3 +1,5 @@
+import { HTMLInputTypeAttribute } from "react";
+
 export type InputFieldProps = {
   value: any;
   onChange: (value: any) => void;
@@ -5,4 +7,6 @@ export type InputFieldProps = {
   isLoading?: boolean;
   maxLength?: number;
   error?: string | null;
+  inputType?: HTMLInputTypeAttribute;
+  style?: React.CSSProperties;
 }

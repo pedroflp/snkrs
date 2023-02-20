@@ -18,3 +18,9 @@ export const Picture = styled.img`
   height: 100%;
   object-fit: cover;
 `
+
+export const Letter = styled.h1`
+  text-transform: uppercase;
+  font-size: 1rem;
+  color: ${colors.black}
+`

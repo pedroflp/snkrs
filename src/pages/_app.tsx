@@ -1,3 +1,4 @@
+import UserContextProvider from '@/contexts/UserContext';
 import { client, ssrCache } from '@/lib/urql';
 import { GlobalStyle } from '@/styles/globalStyles';
 import type { AppProps } from 'next/app';
@@ -10,7 +11,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <GlobalStyle />
       <Provider value={client}>
-        <Component {...pageProps} />
+        <UserContextProvider>
+          <Component {...pageProps} />
+        </UserContextProvider>
       </Provider>
     </>
   )

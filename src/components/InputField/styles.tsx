@@ -5,7 +5,7 @@ import { InputFieldProps } from "./types";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: min-content;
+  align-items: flex-end;
   gap: 4px;
 `;
 
@@ -13,7 +13,6 @@ export const Field = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  width: min-content;
 `;
 
 export const Input = styled.input<InputFieldProps>`
@@ -24,9 +23,12 @@ export const Input = styled.input<InputFieldProps>`
   padding: 0.5rem;
   outline: none;
   font-weight: 500;
+  height: 100%;
+  width: 100%;
+  transition: 300ms ease;
 
-  ${({ isLoading }) => isLoading && css`
-    padding-right: 30px;
+  ${({ isLoading, type }) => (isLoading || type === "password") && css`
+    padding-right: 36px;
   `};
 
   ${({ error }) => !!error && css`
@@ -44,7 +46,7 @@ export const Input = styled.input<InputFieldProps>`
   }
 `;
 
-export const Loading = styled.div`
+export const RightChildren = styled.div`
   position: absolute;
   right: 10px;
 `;
@@ -53,4 +55,5 @@ export const Error = styled.h3`
   color: ${colors.red};
   font-size: 12px;
   font-weight: 700;
+  text-align: right;
 `
