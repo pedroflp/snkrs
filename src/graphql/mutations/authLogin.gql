@@ -2,6 +2,14 @@ mutation authLogin($email: String!, $password: String!) {
   tokenCreate(email: $email, password: $password) {
     token
     refreshToken
+     user {
+      firstName
+      email
+      firstName
+      avatar {
+        url
+      }
+    }
     errors {
       field
       message

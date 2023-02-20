@@ -25262,7 +25262,7 @@ export type AuthLoginMutationVariables = Exact<{
 }>;
 
 
-export type AuthLoginMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, refreshToken?: string | null, errors: Array<{ __typename?: 'AccountError', field?: string | null, message?: string | null }> } | null };
+export type AuthLoginMutation = { __typename?: 'Mutation', tokenCreate?: { __typename?: 'CreateToken', token?: string | null, refreshToken?: string | null, user?: { __typename?: 'User', firstName: string, email: string, avatar?: { __typename?: 'Image', url: string } | null } | null, errors: Array<{ __typename?: 'AccountError', field?: string | null, message?: string | null }> } | null };
 
 export type CreateAccountMutationVariables = Exact<{
   email: Scalars['String'];
@@ -25272,6 +25272,22 @@ export type CreateAccountMutationVariables = Exact<{
 
 
 export type CreateAccountMutation = { __typename?: 'Mutation', accountRegister?: { __typename?: 'AccountRegister', errors: Array<{ __typename?: 'AccountError', field?: string | null, code: AccountErrorCode }>, user?: { __typename?: 'User', email: string, isActive: boolean } | null } | null };
+
+export type RefreshTokenMutationVariables = Exact<{
+  token?: InputMaybe<Scalars['String']>;
+  refreshToken?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type RefreshTokenMutation = { __typename?: 'Mutation', tokenRefresh?: { __typename?: 'RefreshToken', user?: { __typename?: 'User', firstName: string, email: string, isActive: boolean, isStaff: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null } | null };
+
+export type GetAuthUserQueryVariables = Exact<{
+  id?: InputMaybe<Scalars['ID']>;
+  email: Scalars['String'];
+}>;
+
+
+export type GetAuthUserQuery = { __typename?: 'Query', user?: { __typename?: 'User', id: string, firstName: string, email: string, isActive: boolean, isStaff: boolean, avatar?: { __typename?: 'Image', url: string } | null } | null };
 
 export type ProductQueryVariables = Exact<{
   id?: InputMaybe<Scalars['ID']>;
@@ -25293,6 +25309,14 @@ export const AuthLoginDocument = gql`
   tokenCreate(email: $email, password: $password) {
     token
     refreshToken
+    user {
+      firstName
+      email
+      firstName
+      avatar {
+        url
+      }
+    }
     errors {
       field
       message
@@ -25323,6 +25347,43 @@ export const CreateAccountDocument = gql`
 
 export function useCreateAccountMutation() {
   return Urql.useMutation<CreateAccountMutation, CreateAccountMutationVariables>(CreateAccountDocument);
+};
+export const RefreshTokenDocument = gql`
+    mutation refreshToken($token: String, $refreshToken: String) {
+  tokenRefresh(csrfToken: $token, refreshToken: $refreshToken) {
+    user {
+      firstName
+      email
+      avatar {
+        url
+      }
+      isActive
+      isStaff
+    }
+  }
+}
+    `;
+
+export function useRefreshTokenMutation() {
+  return Urql.useMutation<RefreshTokenMutation, RefreshTokenMutationVariables>(RefreshTokenDocument);
+};
+export const GetAuthUserDocument = gql`
+    query getAuthUser($id: ID, $email: String!) {
+  user(id: $id, email: $email) {
+    id
+    firstName
+    email
+    avatar {
+      url
+    }
+    isActive
+    isStaff
+  }
+}
+    `;
+
+export function useGetAuthUserQuery(options: Omit<Urql.UseQueryArgs<GetAuthUserQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetAuthUserQuery, GetAuthUserQueryVariables>({ query: GetAuthUserDocument, ...options });
 };
 export const ProductDocument = gql`
     query Product($id: ID) {

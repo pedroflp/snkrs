@@ -1,6 +1,7 @@
-import UserContextProvider from '@/contexts/UserContext';
-import { client, ssrCache } from '@/lib/urql';
+import { saleorClient } from '@/lib/saleor';
+import { ssrCache, uqrlClient } from '@/lib/urql';
 import { GlobalStyle } from '@/styles/globalStyles';
+import { SaleorProvider } from '@saleor/sdk';
 import type { AppProps } from 'next/app';
 import { Provider } from 'urql';
 
@@ -10,11 +11,12 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <GlobalStyle />
-      <Provider value={client}>
-        <UserContextProvider>
+      <SaleorProvider client={saleorClient}>
+        <Provider value={uqrlClient}>
           <Component {...pageProps} />
-        </UserContextProvider>
-      </Provider>
+        </Provider>
+      </SaleorProvider>
+        
     </>
   )
 }

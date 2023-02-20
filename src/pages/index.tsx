@@ -3,9 +3,10 @@ import { Loading } from "@/components/Loading";
 import { colors } from "@/constants/colors";
 import { ProductsDocument, useProductsQuery } from "@/graphql/generated/grapgql";
 import { BaseLayout } from "@/layout/BaseLayout";
-import { client, ssrCache } from "@/lib/urql";
+import { ssrCache, uqrlClient } from "@/lib/urql";
 import { HomeProps } from "@/pages/types";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { ProductList } from "./home.styles";
 
 const Index: React.FC<HomeProps> = () => {
@@ -15,6 +16,7 @@ const Index: React.FC<HomeProps> = () => {
 
   return (
     <BaseLayout>
+      <Head><title>SNKRS</title></Head>
       {fetching && <Loading
         message="Carregando sneakers..."
         color={colors.grey[2]}
@@ -37,7 +39,7 @@ const Index: React.FC<HomeProps> = () => {
 }
 
 export const getServerSide: GetServerSideProps = async () => {
-  await client.query(ProductsDocument, { limit: 100 }).toPromise();
+  await uqrlClient.query(ProductsDocument, { limit: 100 }).toPromise();
   
   return ({
     props: {

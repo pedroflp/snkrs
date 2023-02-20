@@ -19,7 +19,7 @@ export const InputField: React.FC<InputFieldProps> = ({
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const type = useMemo(() => {
-    if (inputType === "password") return isPasswordVisible ? inputType : "text"
+    if (inputType === "password") return !isPasswordVisible ? inputType : "text"
 
     return inputType
   }, [inputType, isPasswordVisible])
@@ -42,7 +42,7 @@ export const InputField: React.FC<InputFieldProps> = ({
         <RightChildren>
           {inputType === "password" && (
             <Button theme='transparent' style={{ padding: 0 }} onClick={() => setIsPasswordVisible(prev => !prev)}>
-             {isPasswordVisible ? <AiOutlineEye size={20} /> : <AiOutlineEyeInvisible size={20} />}
+             {!isPasswordVisible ? <AiOutlineEye size={20} /> : <AiOutlineEyeInvisible size={20} />}
             </Button>
           )}
           {isLoading && <Loader size={20} />}

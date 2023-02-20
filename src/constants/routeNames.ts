@@ -3,7 +3,8 @@ export const routeNames = {
   favorited: 'favorited',
   bag: 'bag',
   account: {
-    creation: '/create-account',
-    confirmation: '/create-account/confirmation'
+    creation: '/account/creation',
+    auth: '/account/auth',
+    confirmation: '/account/confirmation'
   }
 }

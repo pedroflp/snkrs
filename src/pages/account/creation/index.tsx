@@ -4,6 +4,7 @@ import { routeNames } from '@/constants/routeNames';
 import { useCreateAccountMutation } from '@/graphql/generated/grapgql';
 import { BaseLayout } from '@/layout/BaseLayout';
 import { apiErrorInterpretor } from '@/utils/apiErrorInterpretor';
+import { useAuthState } from '@saleor/sdk';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -12,9 +13,11 @@ import { Container, ErrorMessager, PasswordFields } from './styles';
 
 const CreateAccount: React.FC = () => {
   const router = useRouter();
-
+  const { authenticated } = useAuthState();
+  if (authenticated) router.push(routeNames.home);
+  
   const [{ fetching }, createAccountMutation] = useCreateAccountMutation();
-
+  
   const [userAccount, setUserAccount] = useState({
     name: '', email: '', password: '', passwordConfirmation: ''
   });

@@ -4,7 +4,7 @@ import { Loading } from '@/components/Loading';
 import { colors } from "@/constants/colors";
 import { ProductDocument, useProductQuery } from "@/graphql/generated/grapgql";
 import { BaseLayout } from "@/layout/BaseLayout";
-import { client, ssrCache } from "@/lib/urql";
+import { ssrCache, uqrlClient } from "@/lib/urql";
 import { Column } from "@/styles/globalStyles";
 import { formatCurrency } from "@/utils/formatCurrency";
 import { BsBag } from '@react-icons/all-files/bs/BsBag';
@@ -143,6 +143,7 @@ const ProductScreen: React.FC<{ productId: string }> = ({ productId }) => {
                       maxLength={8}
                       isLoading={isLoadingShippingRequest}
                       error={calculateShippingError}
+                      style={{ width: 160 }}
                       onChange={(value: string) => {
                         if (!!calculateShippingError) setCalculateShippingError(null);
                         
@@ -195,7 +196,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { id: productId } = params as { id: string };
-  const { error } = await client.query(ProductDocument, { id: productId }).toPromise();
+  const { error } = await uqrlClient.query(ProductDocument, { id: productId }).toPromise();
   
   if (!!error) return ({
     redirect: {

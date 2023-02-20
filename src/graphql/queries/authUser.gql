@@ -1,0 +1,12 @@
+query getAuthUser($id: ID, $email: String!) {
+  user(id: $id, email: $email) {
+    id
+    firstName,
+    email,
+    avatar {
+      url
+    }
+    isActive
+    isStaff
+  }
+}

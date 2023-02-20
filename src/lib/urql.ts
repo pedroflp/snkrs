@@ -3,7 +3,7 @@ import { cacheExchange, createClient, dedupExchange, fetchExchange, ssrExchange 
 const isSeverSide = typeof window === 'undefined';
 const ssrCache = ssrExchange({ isClient: !isSeverSide });
 
-const client = createClient({
+const uqrlClient = createClient({
   url: 'https://snkrs.saleor.cloud/graphql/',
   exchanges: [
     dedupExchange,
@@ -13,4 +13,4 @@ const client = createClient({
   ]
 })
 
-export { client, ssrCache };
+export { uqrlClient, ssrCache };

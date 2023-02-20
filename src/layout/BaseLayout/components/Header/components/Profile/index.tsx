@@ -1,13 +1,15 @@
 import { IUser } from '@/contexts/UserContext'
 import { Container, Letter, Picture } from './styles'
 
-export const Profile = ({ user }: { user: IUser["user"] }) => {
+export const Profile = ({
+  user, onClick
+}: { user: IUser["user"], onClick: () => void }) => {
   return (
-    <Container>
-      {!!user!?.photo ? (
-        <Picture src={user!?.photo} />
+    <Container onClick={onClick}>
+      {!!user!?.avatar ? (
+        <Picture src={user!?.avatar} />
       ) : (
-        <Letter>{user?.name.substring(0, 1)}</Letter>
+        <Letter>{user?.firstName.substring(0, 1)}</Letter>
       )}
     </Container>
   )

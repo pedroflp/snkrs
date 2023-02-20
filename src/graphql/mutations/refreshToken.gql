@@ -1,0 +1,13 @@
+mutation refreshToken($token: String, $refreshToken: String) {
+  tokenRefresh(csrfToken: $token, refreshToken: $refreshToken) {
+    user {
+      firstName,
+      email,
+      avatar {
+        url
+      }
+      isActive
+      isStaff
+    }
+  }
+}

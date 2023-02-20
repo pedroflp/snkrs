@@ -1,9 +1,10 @@
 import { Button } from '@/components/Button'
 import { ButtonThemesEnum } from '@/components/Button/types'
+import { Loader } from '@/components/Loading/styles'
 import { routeNames } from '@/constants/routeNames'
-import useUser from '@/hooks/useUser'
 import { BsBag } from '@react-icons/all-files/bs/BsBag'
 import { BsBagFill } from '@react-icons/all-files/bs/BsBagFill'
+import { useAuth, useAuthState } from '@saleor/sdk'
 import { useRouter } from 'next/router'
 import { useCallback } from 'react'
 import { Profile } from './components/Profile'
@@ -11,7 +12,8 @@ import { Container, Content, IconButton, InteractiveButtons, Logo } from './styl
 
 export const Header = () => {
   const { pathname, push } = useRouter();
-  const { user } = useUser();
+  const { user, authenticating } = useAuthState();
+  const { logout } = useAuth();
 
   const BagButton = useCallback(() => {
     const isInBagPage = pathname === routeNames.bag;
@@ -31,13 +33,14 @@ export const Header = () => {
           <BagButton />
         </InteractiveButtons>
 
-        {!!user ? (
-          <Profile user={user} />
+        { authenticating ? <Loader size={22} /> :
+          !!user ? (
+          <Profile user={user} onClick={logout} />
         ) : (
           <Button
             theme={ButtonThemesEnum.primary}
             style={{ width: 100, height: 45 }}
-            onClick={() => push(routeNames.account.creation)}
+            onClick={() => push(routeNames.account.auth)}
           >
             Entrar
           </Button>

@@ -5,8 +5,8 @@ import { InputFieldProps } from "./types";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 4px;
+  width: max-content;
 `;
 
 export const Field = styled.div`
